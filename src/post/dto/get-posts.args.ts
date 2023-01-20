@@ -1,0 +1,3 @@
+class GetPostsArgs {
+    authorId: string
+}

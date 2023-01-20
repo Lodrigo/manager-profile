@@ -1,0 +1,21 @@
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+    canActivate(
+        context: ExecutionContext,
+    ): boolean | Promise<boolean> | Observable<boolean> {
+        console.log("guard aqui");
+        return true;
+        // const featureIncluded = this.authenticationService.hasFeatureRightPermission();
+
+        // if (!featureIncluded) {
+            // this.router.navigate(['/notauthorized']);
+        // }
+        // return featureIncluded;
+
+        // const request = context.switchToHttp().getRequest();
+        // return validateRequest(request);
+    }
+}
