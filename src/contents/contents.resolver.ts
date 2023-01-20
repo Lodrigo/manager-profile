@@ -12,14 +12,12 @@ export class ContentResolver {
 
     @Query(returns => Content)
     async content(@Args('id') id: string) {
-        console.log("content resolver")
         const content = await this.contentService.findOneById(id);
         return content
     }
 
     @Query(returns => [Content])
     async contents(): Promise<Content[]> {
-        console.log("listar resolvers");
         const contents = await this.contentService.findAll() as Content[]
         return contents;
     }
@@ -29,13 +27,11 @@ export class ContentResolver {
         @Args('newContentData') {...newContentData}: NewContentInput,
     ): Promise<Content> {
         const result = await this.contentService.create(newContentData);
-        console.log("add resolvers", result);
         return result;
     }
     
     @Mutation(returns => Boolean)
-    async removeRecipe(@Args('id') id: string) {
-        console.log("remove content", id)
+    async removeContent(@Args('id') id: string) {
         return this.contentService.remove(id);
     }
 }

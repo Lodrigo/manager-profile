@@ -53,12 +53,6 @@ describe('ContentService', () => {
                         destroy: jest.fn(() => mockContent),
                         new: jest.fn().mockResolvedValue(mockContent),
                         constructor: jest.fn().mockResolvedValue(mockContent),
-                        // create: jest.fn(),
-                        // findOneById: jest.fn(),
-                        // findAll: jest.fn(),
-                        // remove: jest.fn(),
-                        // destroy: jest.fn(() => oneUser),
-                        // exec: jest.fn(),
                     },
                 },
             ],
@@ -81,7 +75,14 @@ describe('ContentService', () => {
         const contents = await service.findOneById('1');
         expect(service.findOneById).toBeCalledWith("1");
         expect(contents).toEqual(mockContent);
-        // console.log(service);
     })
+
+    // it('Deve cadastrar um conteúdo', async () => {
+    //     jest.spyOn(service, "create").mockReturnValue(mockContent);
+
+    //     const contents = await service.create();
+    //     expect(service.create).toBeCalledWith("1");
+    //     expect(contents).toEqual(mockContent);
+    // })
 })
 
