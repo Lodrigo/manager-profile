@@ -15,7 +15,7 @@ import { ContentModule } from './contents/contents.module';
     AuthorModule,
     ContentModule,
     PostsModule,
-    MongooseModule.forRoot('mongodb://localhost/manager_profile', { dbName: "manager_profile" }),
+    MongooseModule.forRoot('mongodb://localhost/profiles_manager', { dbName: "profiles_manager" }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       debug: true,
