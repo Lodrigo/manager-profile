@@ -1,3 +1,0 @@
-class GetPostsArgs {
-    authorId: string
-}

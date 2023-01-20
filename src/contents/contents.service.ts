@@ -11,21 +11,21 @@ export class ContentsService {
     ) { }
 
     async create(data: NewContentInput): Promise<Content> {
-        const result =  this.contentModel.create(data);
+        const result =  await this.contentModel.create(data);
         return result;
     }
 
     async findOneById(id: string): Promise<Content> {
-        return this.contentModel.findById(id).exec();
+        return await this.contentModel.findById(id).exec();
     }
 
     async findAll(): Promise<Content[]> {
-        return this.contentModel.find().exec();
+        return await this.contentModel.find().exec();
     }
 
     async remove(id: string): Promise<boolean> {
         console.log("id", id);
-        const deletou = !!this.contentModel.deleteOne({ _id: id }).exec();
+        const deletou = await !!this.contentModel.deleteOne({ _id: id }).exec();
         console.log("deletou? ", deletou)
         return deletou;
     }
