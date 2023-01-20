@@ -4,6 +4,6 @@ export const databaseProviders = [
     {
         provide: 'DATABASE_CONNECTION',
         useFactory: (): Promise<typeof mongoose> =>
-            mongoose.connect('mongodb://localhost/manager_profile'),
+            mongoose.connect('mongodb://localhost/profiles_manager'),
     },
 ];
