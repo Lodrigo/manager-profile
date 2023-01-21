@@ -16,17 +16,17 @@ export class ContentsService {
     }
 
     async findOneById(id: string): Promise<Content> {
-        return await this.contentModel.findById(id).exec();
+        return await this.contentModel.findById(id);
     }
 
     async findAll(): Promise<Content[]> {
-        return await this.contentModel.find().exec();
+        return await this.contentModel.find();
     }
 
     async remove(id: string): Promise<boolean> {
-        console.log("id", id);
-        const deletou = await !!this.contentModel.deleteOne({ _id: id }).exec();
-        console.log("deletou? ", deletou)
-        return deletou;
+        const deleted = await this.contentModel.deleteOne({ _id: id });
+        console.log("deletou", deleted);
+        console.log("!!deleted", !!deleted);
+        return !!deleted;
     }
 }

@@ -15,7 +15,7 @@ describe('ContentService', () => {
         id: "123456789",
         name: "Aula de artes",
         description: "Pintura em tela",
-        type: "pdf"
+        type: "video"
     }
 
     contentsArray = [
@@ -46,13 +46,17 @@ describe('ContentService', () => {
                 {
                     provide: 'CONTENT_MODEL',
                     useValue: {
-                        findAll: jest.fn(),
-                        findOneById: jest.fn(),
-                        create: jest.fn(),
-                        remove: jest.fn(),
-                        destroy: jest.fn(() => mockContent),
                         new: jest.fn().mockResolvedValue(mockContent),
                         constructor: jest.fn().mockResolvedValue(mockContent),
+                        create: jest.fn().mockReturnValue(contentsArray[0]),
+                        deleteOne: jest.fn().mockResolvedValue({
+                            "data": {
+                                "removeContent": false
+                            }
+                        }),
+                        find: jest.fn().mockResolvedValue(contentsArray),
+                        exec: jest.fn(),
+                        findById: jest.fn().mockResolvedValue(mockContent)
                     },
                 },
             ],
@@ -62,27 +66,45 @@ describe('ContentService', () => {
         model = module.get<Model<Content>>('CONTENT_MODEL');
     })
 
-    it('Deve retornar todos conteúdos', async () => {
-        jest.spyOn(service, "findAll").mockReturnValue(contentsArray);
+    it('Serviço esteja definido', async () => {
+        expect(service).toBeDefined();
+        expect(model).toBeDefined();
+        console.log("aa");
+    })
 
+    it('Deve retornar uma lista de conteúdos', async () => {
         const contents = await service.findAll();
         expect(contents).toEqual(contentsArray);
     })
 
-    it('Deve retornar um conteúdo', async () => {
-        jest.spyOn(service, "findOneById").mockReturnValue(mockContent);
+    it('Deve retornar um throw exception ', async () => {
+        expect(service.findAll()).rejects.toThrowError();
+        expect(model.find).toBeCalledTimes(1);
+    })
 
-        const contents = await service.findOneById('1');
-        expect(service.findOneById).toBeCalledWith("1");
+    it('Deve retornar apenas um conteúdo', async () => {
+        const contents = await service.findOneById('123456789');
+        expect(model.findById).toBeCalledTimes(1);
         expect(contents).toEqual(mockContent);
     })
 
-    // it('Deve cadastrar um conteúdo', async () => {
-    //     jest.spyOn(service, "create").mockReturnValue(mockContent);
+    it('Deve cadastrar um novo conteúdo', async () => {
+        const data = {
+            id: "123456789",
+            name: "Aula de artes",
+            description: "Pintura em tela",
+            type: "pdf"
+        }
+        
+        const newContents = await service.create(data);
+        expect(newContents).toEqual(contentsArray[0]);
+        expect(model.create).toBeCalledTimes(1);
+    })
 
-    //     const contents = await service.create();
-    //     expect(service.create).toBeCalledWith("1");
-    //     expect(contents).toEqual(mockContent);
-    // })
+    it('Deve deletar um conteúdo', async () => {
+        const newContents = await service.remove("123456789");
+        expect(newContents).toEqual(true);
+        expect(model.deleteOne).toBeCalledTimes(1);
+    })
 })
 
