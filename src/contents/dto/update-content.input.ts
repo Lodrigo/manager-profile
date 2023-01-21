@@ -2,18 +2,21 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsString, MaxLength } from 'class-validator';
 
 @InputType()
-export class NewContentInput {
-    @IsString()
+export class UpdateContentInput {
     @Field({ nullable: false })
+    id: string;
+
+    @IsString()
+    @Field({ nullable: true })
     @MaxLength(30)
-    name: string;
+    name?: string;
 
     @IsString()
-    @Field({ nullable: false })
+    @Field({ nullable: true })
     @MaxLength(80)
-    description: string;
+    description?: string;
 
     @IsString()
-    @Field({ nullable: false })
-    type: string;
+    @Field({ nullable: true })
+    type?: string;
 }
