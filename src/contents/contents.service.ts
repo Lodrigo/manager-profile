@@ -1,7 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { NewContentInput } from './dto/new-content.input';
-import { Content } from './interfaces/content.interface';
+import { UpdateContentInput } from './dto/update-content.input';
+// import { Content } from './interfaces/content.interface';
+import { Content } from './models/contents.model';
 
 @Injectable()
 export class ContentsService {
@@ -11,22 +13,43 @@ export class ContentsService {
     ) { }
 
     async create(data: NewContentInput): Promise<Content> {
-        const result =  await this.contentModel.create(data);
-        return result;
+        try {
+            return await this.contentModel.create(data);
+        } catch (error) {
+            return error
+        }
+    }
+
+    async update(data: UpdateContentInput): Promise<any> {
+        try {
+            return await this.contentModel.updateOne(data);
+        } catch (error) {
+            return error
+        }
     }
 
     async findOneById(id: string): Promise<Content> {
-        return await this.contentModel.findById(id);
+        try {
+            return await this.contentModel.findById(id);
+        } catch (error) {
+            return error;
+        }
     }
 
     async findAll(): Promise<Content[]> {
-        return await this.contentModel.find();
+        try {
+            return await this.contentModel.find();
+        } catch (error) {
+            return error;
+        }
     }
 
     async remove(id: string): Promise<boolean> {
-        const deleted = await this.contentModel.deleteOne({ _id: id });
-        console.log("deletou", deleted);
-        console.log("!!deleted", !!deleted);
-        return !!deleted;
+        try {
+            const deleted = await this.contentModel.deleteOne({ _id: id });
+            return !!deleted;
+        } catch (error) {
+            return error;
+        }
     }
 }

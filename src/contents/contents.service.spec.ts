@@ -49,6 +49,7 @@ describe('ContentService', () => {
                         new: jest.fn().mockResolvedValue(mockContent),
                         constructor: jest.fn().mockResolvedValue(mockContent),
                         create: jest.fn().mockReturnValue(contentsArray[0]),
+                        updateOne: jest.fn().mockReturnValue(mockContent),
                         deleteOne: jest.fn().mockResolvedValue({
                             "data": {
                                 "removeContent": false
@@ -69,7 +70,6 @@ describe('ContentService', () => {
     it('Serviço esteja definido', async () => {
         expect(service).toBeDefined();
         expect(model).toBeDefined();
-        console.log("aa");
     })
 
     it('Deve retornar uma lista de conteúdos', async () => {
@@ -77,7 +77,7 @@ describe('ContentService', () => {
         expect(contents).toEqual(contentsArray);
     })
 
-    it('Deve retornar um throw exception ', async () => {
+    it('Deve retornar um throw exception ao tentar listar todos conteúdos', async () => {
         expect(service.findAll()).rejects.toThrowError();
         expect(model.find).toBeCalledTimes(1);
     })
@@ -86,6 +86,12 @@ describe('ContentService', () => {
         const contents = await service.findOneById('123456789');
         expect(model.findById).toBeCalledTimes(1);
         expect(contents).toEqual(mockContent);
+    })
+
+    it('Deve retornar um throw exception ao tentar retornar um conteúdo', () => {
+        jest.spyOn(model, 'findById').mockRejectedValueOnce(new Error());
+        expect(service.findOneById('123456789')).rejects.toThrowError();
+        expect(model.findById).toBeCalledTimes(1);
     })
 
     it('Deve cadastrar um novo conteúdo', async () => {
@@ -100,10 +106,30 @@ describe('ContentService', () => {
         expect(newContents).toEqual(contentsArray[0]);
         expect(model.create).toBeCalledTimes(1);
     })
+    
+    it('Deve atualizar um novo conteúdo', async () => {
+        const data = {
+            id: "123456789",
+            name: "Aula de artes",
+            description: "Pintura em tela",
+            type: "pdf"
+        }
+        
+        const updatedContent = await service.update(data);
+        expect(updatedContent).toEqual(mockContent);
+        expect(model.updateOne).toBeCalledTimes(1);
+    })
 
     it('Deve deletar um conteúdo', async () => {
         const newContents = await service.remove("123456789");
         expect(newContents).toEqual(true);
+        expect(model.deleteOne).toBeCalledTimes(1);
+    })
+
+    it('Deve retornar um throw ao tentar deletar um conteúdo', () => {
+        jest.spyOn(model, 'deleteOne').mockRejectedValueOnce(new Error());
+
+        expect(service.remove("123456789")).rejects.toThrowError();
         expect(model.deleteOne).toBeCalledTimes(1);
     })
 })
