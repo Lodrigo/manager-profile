@@ -1,45 +1,33 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-// import { Author } from './models/author.model';
-import { User } from './interfaces/user.interface';
+// import { UserTypes } from 'src/shared/enums/user-types.enums';
+import { User } from './models/users.model';
 
+// MODO DO SITE export type User = any;
 @Injectable()
 export class UserService {
-    /**
-     *
-     */
     constructor(
         @Inject('USER_MODEL')
         private userModel: Model<User>,
     ) { }
 
-    // async create(data: NewRecipeInput): Promise<Recipe> {
-    //     return {} as any;
-    // }
+    private readonly users: User[] = [
+        {
+            id: "2",
+            username: 'carlos',
+            password: '1234',
+            type: "Administrador"
+        },
+        {
+            id: "2",
+            username: 'maria',
+            password: '1234',
+            type: "Aluno"
+        },
+    ];
 
-    async findOneById(id: string): Promise<User> {
-
-        // const result = await this.authorModel.create(
-        //     {
-        //         firstName: "Rodrigo",
-        //         lastName: "Lourenço"
-        //     }
-        // )
-        // console.log(result);
-        // return result;
-        return this.userModel.findById(id).exec();
-        // return {
-        //     id: 1,
-        //     firstName: "Rodrigo",
-        //     lastName: "Lourenço"
-        // } as Author;
+    async findOne(id: string): Promise<User | undefined> {
+        return this.users.find(user => user.id === id);
     }
 
-    // async findAll(recipesArgs: RecipesArgs): Promise<Recipe[]> {
-    //     return [] as Recipe[];
-    // }
-
-    // async remove(id: string): Promise<boolean> {
-    //     return true;
-    // }
 }

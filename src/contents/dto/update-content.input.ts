@@ -7,16 +7,16 @@ export class UpdateContentInput {
     id: string;
 
     @IsString()
-    @Field({ nullable: true })
+    @Field({ nullable: false })
     @MaxLength(30)
     name?: string;
 
     @IsString()
-    @Field({ nullable: true })
+    @Field({ nullable: false })
     @MaxLength(80)
     description?: string;
 
     @IsString()
-    @Field({ nullable: true })
+    @Field({ nullable: false })
     type?: string;
 }

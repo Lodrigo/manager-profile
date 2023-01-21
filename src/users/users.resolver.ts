@@ -11,7 +11,7 @@ export class UserResolver {
 
     @Query(returns => User)
     async author(@Args('id') id: string) {
-        const user = await this.userService.findOneById(id);
+        const user = await this.userService.findOne(id);
         return user
     }
 }

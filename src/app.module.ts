@@ -6,6 +6,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { RolesGuard } from './guards/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { ContentModule } from './contents/contents.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
+import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 
 @Module({
   imports: [
@@ -18,13 +22,27 @@ import { ContentModule } from './contents/contents.module';
       autoSchemaFile: true,
       sortSchema: true,
     }),
+    AuthModule,
+    UsersModule
   ],
   providers: [
     AppService,
+    // GUARD PURO
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // }
+    // GUARD COM JWT
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
+      useClass: JwtAuthGuard,
     }
+    // GUARD LOCAL SEM JWT
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: LocalAuthGuard,
+    // }
+    
   ],
 })
 export class AppModule {}

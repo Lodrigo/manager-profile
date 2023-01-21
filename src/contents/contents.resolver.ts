@@ -1,7 +1,12 @@
-import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from "@nestjs/graphql";
+import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { Content } from "./models/contents.model";
 import { ContentsService } from "./contents.service"
 import { NewContentInput } from "./dto/new-content.input"
+import { UseGuards } from "@nestjs/common/decorators/core/use-guards.decorator";
+import { LocalAuthGuard } from "src/auth/guards/local-auth.guard";
+import { CurrentUser } from "src/shared/current-user";
+import { User } from "src/users/models/users.model";
+// import { AuthGuard } from "src/guards/authguards";
 
 @Resolver(of => Content)
 
@@ -11,6 +16,7 @@ export class ContentResolver {
     ) { }
 
     @Query(returns => Content)
+    // async content(@Args('id') id: string, @CurrentUser() user: User) {
     async content(@Args('id') id: string) {
         const content = await this.contentService.findOneById(id);
         return content
@@ -31,6 +37,7 @@ export class ContentResolver {
     }
     
     @Mutation(returns => Boolean)
+    // @UseGuards(LocalAuthGuard)
     async removeContent(@Args('id') id: string) {
         return this.contentService.remove(id);
     }
