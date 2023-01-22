@@ -23,11 +23,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         username: string,
         password: string,
     ): Promise<any> {
+        console.log("não autorizadoooo")
         const user = await this.authService.validateUser(username, password);
         const contextId = ContextIdFactory.getByRequest(request);
         // "AuthService" is a request-scoped provider
         const authService = await this.moduleRef.resolve(AuthService, contextId);
         if (!user) {
+            console.log("não autorizadoooo")
             throw new UnauthorizedException();
         }
         return user;
