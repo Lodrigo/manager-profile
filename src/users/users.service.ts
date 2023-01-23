@@ -21,8 +21,8 @@ export class UserService {
 
         // const result = await this.authorModel.create(
         //     {
-        //         firstName: "Rodrigo",
-        //         lastName: "Lourenço"
+        //         firstName: "Carlos",
+        //         lastName: "Silva"
         //     }
         // )
         // console.log(result);
@@ -30,7 +30,7 @@ export class UserService {
         return this.userModel.findById(id).exec();
         // return {
         //     id: 1,
-        //     firstName: "Rodrigo",
+        //     firstName: "Carlos",
         //     lastName: "Lourenço"
         // } as Author;
     }

@@ -49,7 +49,7 @@ describe('ContentService', () => {
                         new: jest.fn().mockResolvedValue(mockContent),
                         constructor: jest.fn().mockResolvedValue(mockContent),
                         create: jest.fn().mockReturnValue(contentsArray[0]),
-                        updateOne: jest.fn().mockReturnValue(mockContent),
+                        findOneAndUpdate: jest.fn().mockReturnValue(mockContent),
                         deleteOne: jest.fn().mockResolvedValue({
                             "data": {
                                 "removeContent": false
@@ -117,7 +117,7 @@ describe('ContentService', () => {
         
         const updatedContent = await service.update(data);
         expect(updatedContent).toEqual(mockContent);
-        expect(model.updateOne).toBeCalledTimes(1);
+        expect(model.findOneAndUpdate).toBeCalledTimes(1);
     })
 
     it('Deve deletar um conteúdo', async () => {

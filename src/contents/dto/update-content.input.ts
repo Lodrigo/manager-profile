@@ -3,20 +3,21 @@ import { IsString, MaxLength } from 'class-validator';
 
 @InputType()
 export class UpdateContentInput {
-    @Field({ nullable: false })
+    @Field({ nullable: false, description: 'id do conteúdo' })
     id: string;
-
+    
     @IsString()
-    @Field({ nullable: true })
+    @Field({ nullable: false })
     @MaxLength(30)
-    name?: string;
+    name: string;
 
     @IsString()
-    @Field({ nullable: true })
+    @Field({ nullable: false })
     @MaxLength(80)
-    description?: string;
+    description: string;
 
     @IsString()
-    @Field({ nullable: true })
-    type?: string;
+    @MaxLength(3)
+    @Field({ nullable: false })
+    type: string;
 }

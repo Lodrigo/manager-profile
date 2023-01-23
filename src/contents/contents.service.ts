@@ -20,9 +20,9 @@ export class ContentsService {
         }
     }
 
-    async update(data: UpdateContentInput): Promise<any> {
+    async update(data: UpdateContentInput): Promise<Content> {
         try {
-            return await this.contentModel.updateOne(data);
+            return await this.contentModel.findOneAndUpdate({_id: data.id}, data,);
         } catch (error) {
             return error
         }

@@ -3,7 +3,7 @@ import { MaxLength } from 'class-validator';
 
 @ObjectType({ description: 'Conteúdo' })
 export class Content {
-    @Field({ description: 'id do conteúdo' })
+    @Field({ nullable: false, description: 'id do conteúdo' })
     id: string;
 
     @Field({ nullable: false, description: 'nome do conteúdo' })
@@ -14,6 +14,7 @@ export class Content {
     @MaxLength(80)
     description: string;
 
+    @MaxLength(3)
     @Field({ nullable: false, description: 'tipo do perfil' })
     type: string;
 }

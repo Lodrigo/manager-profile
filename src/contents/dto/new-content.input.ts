@@ -14,6 +14,7 @@ export class NewContentInput {
     description: string;
 
     @IsString()
+    @MaxLength(3)
     @Field({ nullable: false })
     type: string;
 }

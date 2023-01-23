@@ -2,6 +2,7 @@ import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from "@nes
 import { Content } from "./models/contents.model";
 import { ContentsService } from "./contents.service"
 import { NewContentInput } from "./dto/new-content.input"
+import { UpdateContentInput } from "./dto/update-content.input";
 
 @Resolver(of => Content)
 
@@ -11,7 +12,7 @@ export class ContentResolver {
     ) { }
 
     @Query(returns => Content)
-    async content(@Args('id') id: string) {
+    async content(@Args('id') id: string): Promise<Content> {
         const content = await this.contentService.findOneById(id);
         return content
     }
@@ -24,9 +25,19 @@ export class ContentResolver {
 
     @Mutation(returns => Content)
     async addContent(
-        @Args('newContentData') {...newContentData}: NewContentInput,
+        @Args('newContentData') { ...newContentData }: NewContentInput,
     ): Promise<Content> {
         const result = await this.contentService.create(newContentData);
+        console.log(result, "resultado")
+        return result;
+    }
+
+    @Mutation(returns => Content)
+    async updateContent(
+        @Args('contentData') {...inputContentData}: UpdateContentInput,
+    ): Promise<Content> {
+        const result = await this.contentService.update(inputContentData);
+        console.log(result, "resultado")
         return result;
     }
     
